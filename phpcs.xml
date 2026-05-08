@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="VendingMachine">
+  <description>PSR-12 for the vending machine project</description>
+  <file>src</file>
+  <file>tests</file>
+  <file>public</file>
+  <exclude-pattern>vendor/*</exclude-pattern>
+  <exclude-pattern>coverage/*</exclude-pattern>
+  <exclude-pattern>*\.js$</exclude-pattern>
+  <exclude-pattern>*\.css$</exclude-pattern>
+  <arg name="extensions" value="php"/>
+  <rule ref="PSR12"/>
+  <arg name="colors"/>
+  <arg value="ps"/>
+</ruleset>

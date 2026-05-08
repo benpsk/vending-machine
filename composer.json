@@ -1,0 +1,60 @@
+{
+    "name": "vending-machine/app",
+    "description": "Vending machine PHP web app + REST API",
+    "type": "project",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.4",
+        "firebase/php-jwt": "^7.0",
+        "vlucas/phpdotenv": "^5.6"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.50",
+        "mockery/mockery": "^1.6",
+        "phpstan/phpstan": "^2.0",
+        "phpstan/phpstan-mockery": "^2.0",
+        "phpunit/phpunit": "^11.5",
+        "squizlabs/php_codesniffer": "^3.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": "phpunit",
+        "test:cov": "phpunit --coverage-text --coverage-html=coverage",
+        "stan": "phpstan analyse --memory-limit=512M",
+        "cs": "phpcs",
+        "cs:fix": "php-cs-fixer fix",
+        "migrate": "php bin/migrate.php",
+        "seed:admin": "php bin/seed-admin.php",
+        "seed:products": "php bin/seed-products.php",
+        "dev": "php -S localhost:8000 -t public"
+    },
+    "scripts-descriptions": {
+        "test": "Run the PHPUnit suite",
+        "test:cov": "Run PHPUnit with HTML coverage report under coverage/",
+        "stan": "Run PHPStan level 8 static analysis",
+        "cs": "Check PSR-12 compliance",
+        "cs:fix": "Auto-fix PSR-12 violations",
+        "migrate": "Apply pending DB migrations",
+        "seed:admin": "Seed the admin user (uses SEED_ADMIN_PASSWORD)",
+        "seed:products": "Seed Coke / Pepsi / Water (idempotent)",
+        "dev": "Start the local PHP dev server at http://localhost:8000"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {}
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}

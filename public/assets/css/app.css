@@ -1,0 +1,558 @@
+:root {
+    --bg: #ffffff;
+    --bg-soft: #f8fafc;
+    --bg-muted: #f1f5f9;
+    --fg: #0f172a;
+    --fg-muted: #475569;
+    --fg-subtle: #94a3b8;
+    --border: #e2e8f0;
+    --border-strong: #cbd5e1;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-fg: #ffffff;
+    --admin: #b45309;
+    --admin-soft: #fef3c7;
+    --admin-soft-border: #fde68a;
+    --error-bg: #fef2f2;
+    --error-fg: #b91c1c;
+    --error-border: #fecaca;
+    --success-bg: #f0fdf4;
+    --success-fg: #15803d;
+    --success-border: #bbf7d0;
+    --radius: 6px;
+    --radius-lg: 10px;
+    --shadow-sm: 0 1px 2px 0 rgb(15 23 42 / 0.04);
+    --shadow: 0 1px 3px 0 rgb(15 23 42 / 0.08), 0 1px 2px -1px rgb(15 23 42 / 0.06);
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-6: 1.5rem;
+    --space-8: 2rem;
+    --space-12: 3rem;
+}
+
+* { box-sizing: border-box; }
+
+html, body { height: 100%; }
+
+body {
+    margin: 0;
+    color: var(--fg);
+    background: var(--bg);
+    font: 15px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Header / nav */
+header {
+    border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+header nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--space-3) var(--space-6);
+}
+header nav .brand {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.01em;
+}
+header nav .nav-links {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    margin-left: auto;
+    font-size: 0.9rem;
+}
+header nav a {
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: color 120ms ease;
+}
+header nav a:hover { color: var(--fg); }
+
+/* Mobile hamburger — pure-CSS checkbox toggle so no JS / inline handlers (CSP-safe).
+   The checkbox is visually hidden but keyboard-focusable; the label is the visible
+   button. On desktop both are hidden and .nav-links is the inline flex row. */
+.nav-toggle {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    margin: -1px;
+    padding: 0;
+    border: 0;
+    clip: rect(0 0 0 0);
+    overflow: hidden;
+    pointer-events: none;
+}
+.hamburger {
+    display: none;
+    width: 40px;
+    height: 40px;
+    margin-left: auto;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    color: var(--fg-muted);
+    font-size: 1.1rem;
+    user-select: none;
+    transition: border-color 120ms ease, color 120ms ease;
+}
+.hamburger::before { content: "\2630"; line-height: 1; }
+.nav-toggle:checked + .hamburger::before { content: "\2715"; }
+.hamburger:hover { border-color: var(--fg-subtle); color: var(--fg); }
+.nav-toggle:focus-visible + .hamburger {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.logout-form { display: inline; margin: 0; }
+.logout-form button {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--fg-muted);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius);
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: border-color 120ms ease, color 120ms ease;
+}
+.logout-form button:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
+}
+
+/* Layout */
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: var(--space-12) var(--space-6) var(--space-8);
+}
+
+h1 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin: 0 0 var(--space-3);
+    line-height: 1.2;
+}
+h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    margin: var(--space-8) 0 var(--space-3);
+}
+p { margin: 0 0 var(--space-4); }
+
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* Hero copy under H1 */
+main > p:first-of-type:not(.cta-row):not(.flash) {
+    color: var(--fg-muted);
+    font-size: 1.05rem;
+    margin-bottom: var(--space-6);
+    max-width: 60ch;
+}
+
+/* Buttons */
+button, .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.55rem 1rem;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: var(--accent-fg);
+    border-radius: var(--radius);
+    font: inherit;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 120ms ease, border-color 120ms ease, transform 80ms ease;
+    box-shadow: var(--shadow-sm);
+}
+button:hover, .button:hover {
+    background: var(--accent-hover);
+    border-color: var(--accent-hover);
+    text-decoration: none;
+}
+button:active, .button:active { transform: translateY(1px); }
+button:focus-visible, .button:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+button.secondary, .button.secondary {
+    background: var(--bg);
+    color: var(--fg);
+    border-color: var(--border-strong);
+    box-shadow: none;
+}
+button.secondary:hover, .button.secondary:hover {
+    background: var(--bg-soft);
+    border-color: var(--fg-subtle);
+}
+
+.cta-row {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+}
+
+/* Tables */
+table.products, table.receipt {
+    width: 100%;
+    border-collapse: collapse;
+    margin: var(--space-4) 0 var(--space-6);
+    font-size: 0.92rem;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+}
+table.products th, table.products td,
+table.receipt th, table.receipt td {
+    padding: 0.7rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+table.products thead th {
+    background: var(--bg-soft);
+    color: var(--fg-muted);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+table.products thead th a {
+    color: inherit;
+    text-decoration: none;
+}
+table.products thead th a:hover { color: var(--fg); }
+table.products tbody tr:last-child td,
+table.receipt tr:last-child td {
+    border-bottom: 0;
+}
+table.products tbody tr:hover { background: var(--bg-soft); }
+table.receipt th {
+    color: var(--fg-muted);
+    font-weight: 500;
+    width: 8.5rem;
+    background: var(--bg-soft);
+}
+
+/* Definition lists (product detail) */
+dl.product-detail {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-2) var(--space-6);
+    margin: 0 0 var(--space-6);
+    padding: var(--space-4) var(--space-6);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    max-width: 32rem;
+}
+dl.product-detail dt { color: var(--fg-muted); font-weight: 500; }
+dl.product-detail dd { margin: 0; font-variant-numeric: tabular-nums; }
+
+/* Forms */
+form { margin: 0; }
+form p { margin: 0 0 var(--space-4); }
+label {
+    display: block;
+    font-weight: 500;
+    font-size: 0.85rem;
+    color: var(--fg-muted);
+    margin-bottom: var(--space-1);
+}
+input[type=text], input[type=password] {
+    display: block;
+    width: 100%;
+    max-width: 24rem;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius);
+    font: inherit;
+    font-size: 0.92rem;
+    background: var(--bg);
+    color: var(--fg);
+    transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+input[type=text]:focus, input[type=password]:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgb(37 99 235 / 0.15);
+}
+input[aria-invalid="true"] {
+    border-color: var(--error-fg);
+}
+input[aria-invalid="true"]:focus {
+    box-shadow: 0 0 0 3px rgb(185 28 28 / 0.15);
+}
+
+/* Flash messages and form errors */
+.flash, .form-errors {
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius);
+    margin-bottom: var(--space-4);
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+}
+.flash-error, .form-errors {
+    background: var(--error-bg);
+    color: var(--error-fg);
+    border-color: var(--error-border);
+}
+.flash-success {
+    background: var(--success-bg);
+    color: var(--success-fg);
+    border-color: var(--success-border);
+}
+.form-errors {
+    list-style: none;
+    padding-left: var(--space-4);
+    margin: 0 0 var(--space-4);
+}
+.form-errors li {
+    margin: var(--space-1) 0;
+    padding-left: var(--space-3);
+    position: relative;
+}
+.form-errors li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    gap: var(--space-3);
+    align-items: center;
+    margin-top: var(--space-4);
+    font-size: 0.88rem;
+}
+.pagination a {
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--fg-muted);
+    text-decoration: none;
+    transition: border-color 120ms ease, color 120ms ease;
+}
+.pagination a:hover {
+    border-color: var(--border-strong);
+    color: var(--fg);
+}
+.pagination-disabled {
+    color: var(--fg-subtle);
+    padding: 0.35rem 0.7rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+}
+.pagination-info {
+    color: var(--fg-muted);
+    margin-left: auto;
+}
+
+/* Empty state inside table */
+table.products tbody td em {
+    color: var(--fg-subtle);
+    font-style: normal;
+}
+
+/* Admin layout chrome — visually distinct from the public storefront so an admin
+   never has to wonder which surface they're on. ADMIN wordmark next to the brand
+   plus a tinted header background carry the signal. Restricted to body.admin-area
+   so it cannot leak to public pages. */
+body.admin-area header.admin-header {
+    background: #fffbeb;
+    border-bottom: 1px solid var(--admin-soft-border);
+}
+body.admin-area header.admin-header .brand {
+    color: var(--fg);
+}
+body.admin-area header.admin-header .admin-wordmark {
+    display: inline-block;
+    padding: 0.1rem 0.5rem;
+    margin-left: 0.4rem;
+    background: var(--admin);
+    color: #fff;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border-radius: var(--radius);
+    vertical-align: middle;
+}
+body.admin-area header.admin-header .view-site {
+    color: var(--fg-muted);
+    font-size: 0.85rem;
+}
+body.admin-area header.admin-header .view-site:hover {
+    color: var(--fg);
+}
+body.admin-area .button {
+    background: var(--admin);
+    border-color: var(--admin);
+}
+body.admin-area .button:hover {
+    background: #92400e;
+    border-color: #92400e;
+}
+body.admin-area .button.secondary {
+    background: var(--bg);
+    color: var(--fg);
+    border-color: var(--border-strong);
+}
+body.admin-area .button.secondary:hover {
+    background: var(--bg-soft);
+    border-color: var(--fg-subtle);
+}
+body.admin-area input[type=text]:focus,
+body.admin-area input[type=password]:focus {
+    border-color: var(--admin);
+    box-shadow: 0 0 0 3px rgb(180 83 9 / 0.15);
+}
+
+/* Numeric columns */
+table.products td.num,
+table.products th.num {
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.muted { color: var(--fg-subtle); font-style: italic; }
+
+/* ----- Mobile (<= 768px) ------------------------------------------------ */
+@media (max-width: 768px) {
+    main { padding: var(--space-6) var(--space-4) var(--space-6); }
+    h1 { font-size: 1.45rem; }
+    h2 { font-size: 1.05rem; margin-top: var(--space-6); }
+
+    /* Header collapses: brand on the left, hamburger on the right, links drop
+       below as a vertical menu when the checkbox is checked. */
+    header nav {
+        padding: var(--space-3) var(--space-4);
+        flex-wrap: wrap;
+        gap: var(--space-2);
+    }
+    .hamburger { display: inline-flex; }
+    header nav .nav-links {
+        display: none;
+        order: 99;
+        flex-basis: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0;
+        margin-left: 0;
+        padding-top: var(--space-2);
+        border-top: 1px solid var(--border);
+    }
+    .nav-toggle:checked ~ .nav-links { display: flex; }
+    header nav .nav-links a,
+    header nav .nav-links .logout-form {
+        padding: var(--space-3) var(--space-2);
+        font-size: 0.95rem;
+        border-bottom: 1px solid var(--border);
+    }
+    header nav .nav-links a:last-child:not(.view-site),
+    header nav .nav-links .logout-form:last-child {
+        border-bottom: 0;
+    }
+    .logout-form { display: block; }
+    .logout-form button {
+        display: block;
+        width: 100%;
+        text-align: left;
+        padding: var(--space-2) 0;
+        border: 0;
+        background: transparent;
+        color: var(--fg-muted);
+        font-size: 0.95rem;
+    }
+    .logout-form button:hover {
+        background: transparent;
+        color: var(--fg);
+    }
+    body.admin-area header.admin-header .nav-links {
+        border-top-color: var(--admin-soft-border);
+    }
+    body.admin-area header.admin-header .nav-links a,
+    body.admin-area header.admin-header .nav-links .logout-form {
+        border-bottom-color: var(--admin-soft-border);
+    }
+
+    /* Tables overflow horizontally so columns aren't crushed.  Block display
+       lets the inner content set its own width while the wrapper scrolls. */
+    table.products,
+    table.receipt {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+        font-size: 0.88rem;
+    }
+    table.products th, table.products td,
+    table.receipt th, table.receipt td {
+        padding: 0.6rem 0.7rem;
+    }
+    table.receipt th { width: auto; min-width: 7rem; }
+
+    /* CTA row: stack buttons full-width on narrow screens. */
+    .cta-row { flex-direction: column; align-items: stretch; }
+    .cta-row .button { width: 100%; padding: 0.7rem 1rem; }
+
+    /* Pagination: pull the info text below on its own line so prev/next stay together. */
+    .pagination { flex-wrap: wrap; gap: var(--space-2); }
+    .pagination-info {
+        flex-basis: 100%;
+        margin: var(--space-1) 0 0;
+        order: 99;
+        text-align: center;
+    }
+
+    /* Forms full-bleed so inputs aren't pinned to a 24rem column on a 360px screen. */
+    input[type=text], input[type=password] { max-width: 100%; }
+    button[type=submit] { width: 100%; padding: 0.7rem 1rem; }
+    form p a { display: inline-block; padding: var(--space-2) var(--space-3); }
+
+    dl.product-detail {
+        padding: var(--space-3) var(--space-4);
+        gap: var(--space-1) var(--space-4);
+    }
+
+    /* Admin-side wordmark stays inline, but slightly smaller. */
+    body.admin-area header.admin-header .admin-wordmark {
+        font-size: 0.65rem;
+        padding: 0.05rem 0.4rem;
+    }
+}
+
+/* ----- Very narrow phones (<= 380px) ------------------------------------- */
+@media (max-width: 380px) {
+    body { font-size: 14px; }
+    h1 { font-size: 1.3rem; }
+    main { padding: var(--space-4) var(--space-3); }
+    header nav { padding: var(--space-2) var(--space-3); }
+    header nav .brand { font-size: 0.9rem; }
+}

@@ -54,6 +54,7 @@ final class View
             'title' => $data['title'] ?? 'Vending Machine',
             'currentUser' => $data['currentUser'] ?? null,
             'csrf' => $data['csrf'] ?? null,
+            'seo' => $data['seo'] ?? [],
             'content' => $content,
         ]);
     }

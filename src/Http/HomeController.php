@@ -22,10 +22,29 @@ final class HomeController
     {
         $user = $request->attribute('user');
 
+        $seo = [
+            'title'       => 'Vending Machine — Products & Purchases',
+            'description' => 'Browse the vending machine inventory, top up your balance, and buy snacks.'
+                . ' Server-rendered web UI plus a JSON REST API for integrations.',
+            'canonical'   => '/',
+            'jsonLd'      => [
+                '@context' => 'https://schema.org',
+                '@type'    => 'WebSite',
+                'name'     => 'Vending Machine',
+                'url'      => (string)($_ENV['APP_URL'] ?? '/'),
+                'potentialAction' => [
+                    '@type'       => 'SearchAction',
+                    'target'      => ['@type' => 'EntryPoint', 'urlTemplate' => '/products?q={query}'],
+                    'query-input' => 'required name=query',
+                ],
+            ],
+        ];
+
         return Response::html($this->view->renderInLayout('home', [
-            'title' => 'Vending Machine',
+            'title'       => 'Vending Machine',
             'currentUser' => $user instanceof User ? $user : null,
-            'csrf' => Csrf::token($this->session),
+            'csrf'        => Csrf::token($this->session),
+            'seo'         => $seo,
         ], 'layouts/public'));
     }
 }

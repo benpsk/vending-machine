@@ -54,6 +54,7 @@ final class ProductsController
             'product' => $product,
             'currentUser' => $this->currentUser($request),
             'csrf' => Csrf::token($this->session),
+            'seo' => $this->seoForProduct($product),
         ], 'layouts/public'));
     }
 
@@ -113,6 +114,10 @@ final class ProductsController
             'product' => $product,
             'currentUser' => $user,
             'csrf' => Csrf::token($this->session),
+            'seo' => [
+                'title'  => 'Purchase complete',
+                'robots' => 'noindex,nofollow',
+            ],
         ], 'layouts/public'));
     }
 
@@ -272,7 +277,7 @@ final class ProductsController
             );
         }
 
-        return Response::html($this->view->renderInLayout('products/index', [
+        $data = [
             'title' => $showAdminActions ? 'Manage products' : 'Products',
             'products' => $result['items'],
             'page' => $result['page'],
@@ -284,7 +289,17 @@ final class ProductsController
             'showAdminActions' => $showAdminActions,
             'currentUser' => $this->currentUser($request),
             'csrf' => Csrf::token($this->session),
-        ], $showAdminActions ? 'layouts/admin' : 'layouts/public'));
+        ];
+
+        if (!$showAdminActions) {
+            $data['seo'] = $this->seoForProductList($result['items'], $page);
+        }
+
+        return Response::html($this->view->renderInLayout(
+            'products/index',
+            $data,
+            $showAdminActions ? 'layouts/admin' : 'layouts/public',
+        ));
     }
 
     private function renderPurchaseForm(Request $request, Product $product, string $quantity, ?string $error): Response
@@ -296,6 +311,10 @@ final class ProductsController
             'error' => $error,
             'currentUser' => $this->currentUser($request),
             'csrf' => Csrf::token($this->session),
+            'seo' => [
+                'title'  => "Buy {$product->name}",
+                'robots' => 'noindex,follow',
+            ],
         ], 'layouts/public');
         return Response::html($body, $error === null ? 200 : 422);
     }
@@ -340,5 +359,73 @@ final class ProductsController
     {
         $user = $request->attribute('user');
         return $user instanceof User ? $user : null;
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function seoForProduct(Product $product): array
+    {
+        $availability = $product->quantityAvailable > 0
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock';
+
+        $description = sprintf(
+            '%s — %s USD per unit. %s in the vending machine.',
+            $product->name,
+            $product->price,
+            $product->quantityAvailable > 0 ? 'Available now' : 'Currently out of stock',
+        );
+
+        return [
+            'title'       => $product->name . ' — Vending Machine',
+            'description' => $description,
+            'canonical'   => '/products/' . $product->id,
+            'type'        => 'product',
+            'jsonLd'      => [
+                '@context'    => 'https://schema.org',
+                '@type'       => 'Product',
+                'name'        => $product->name,
+                'description' => $description,
+                'sku'         => (string)$product->id,
+                'offers'      => [
+                    '@type'         => 'Offer',
+                    'price'         => $product->price,
+                    'priceCurrency' => 'USD',
+                    'availability'  => $availability,
+                ],
+            ],
+        ];
+    }
+
+    /**
+     * @param list<Product> $products
+     * @return array<string, mixed>
+     */
+    private function seoForProductList(array $products, int $page): array
+    {
+        $items = [];
+        foreach ($products as $i => $product) {
+            $items[] = [
+                '@type'    => 'ListItem',
+                'position' => $i + 1,
+                'url'      => '/products/' . $product->id,
+                'name'     => $product->name,
+            ];
+        }
+
+        $title = $page > 1 ? "Products — Page {$page}" : 'Products';
+
+        return [
+            'title'       => $title . ' — Vending Machine',
+            'description' => 'Browse the full catalogue of products available in the vending machine.'
+                . ' Buy snacks and drinks with your account balance.',
+            'canonical'   => '/products' . ($page > 1 ? '?page=' . $page : ''),
+            'jsonLd'      => [
+                '@context'        => 'https://schema.org',
+                '@type'           => 'ItemList',
+                'itemListElement' => $items,
+            ],
+        ];
     }
 }

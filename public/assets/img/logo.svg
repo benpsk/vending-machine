@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 64" role="img" aria-label="Vending Machine">
+  <title>Vending Machine</title>
+  <g>
+    <rect width="64" height="64" rx="14" fill="#0F766E"/>
+    <rect x="16" y="12" width="32" height="40" rx="3" fill="#FFFFFF"/>
+    <rect x="20" y="16" width="24" height="20" rx="2" fill="#0F766E"/>
+    <circle cx="26" cy="22" r="1.6" fill="#FFFFFF"/>
+    <circle cx="32" cy="22" r="1.6" fill="#FFFFFF"/>
+    <circle cx="38" cy="22" r="1.6" fill="#FFFFFF"/>
+    <circle cx="26" cy="30" r="1.6" fill="#FFFFFF"/>
+    <circle cx="32" cy="30" r="1.6" fill="#FFFFFF"/>
+    <circle cx="38" cy="30" r="1.6" fill="#FFFFFF"/>
+    <circle cx="22" cy="42" r="1.6" fill="#0F766E"/>
+    <circle cx="28" cy="42" r="1.6" fill="#0F766E"/>
+    <circle cx="34" cy="42" r="1.6" fill="#0F766E"/>
+    <circle cx="40" cy="42" r="1.6" fill="#0F766E"/>
+    <rect x="22" y="46" width="20" height="3" rx="1" fill="#0F766E"/>
+  </g>
+  <text x="80" y="40"
+        font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        font-size="26" font-weight="700" fill="#0F766E" letter-spacing="-0.5">Vending</text>
+  <text x="80" y="58"
+        font-family="ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif"
+        font-size="14" font-weight="500" fill="#0B5650" letter-spacing="2">MACHINE</text>
+</svg>

@@ -18,6 +18,10 @@ final class Router
         $method = strtoupper($method);
         $effectiveMethod = $method === 'HEAD' ? 'GET' : $method;
 
+        if ($path !== '/' && str_ends_with($path, '/')) {
+            $path = rtrim($path, '/');
+        }
+
         $allowedForPath = [];
         foreach ($this->routes as $route) {
             if (preg_match($route->regex, $path, $matches) !== 1) {

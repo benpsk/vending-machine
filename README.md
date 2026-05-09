@@ -1,5 +1,7 @@
 # Vending Machine
 
+> **Note:** This project was built ~80% using AI (Claude Code).
+
 PHP 8.4 web app + REST API for a vending machine.
 
 Authoritative design lives in [`plans/`](plans/) and [`requirements.md`](requirements.md). Day-to-day working agreement is in [`CLAUDE.md`](CLAUDE.md).
